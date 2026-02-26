@@ -1,8 +1,3 @@
-# employee-portal
-Employee Portal Angular with Bootstrap Practice Project.
-
-
-
 # Employee Portal (Angular 21 + Bootstrap)
 Welcome to the Employee Portal repository. This project serves as a comprehensive guide for implementing a modern, responsive enterprise application using Angular 21 Standalone Components and Signals.
 
@@ -20,7 +15,7 @@ We utilize a standalone architecture to eliminate NgModules for a lighter, faste
   Bash
   ng new employee-portal --standalone
   cd employee-portal
-2. Automated Bootstrap Integration
+###2. Automated Bootstrap Integration
 We use @ng-bootstrap/ng-bootstrap via ng add. This is the preferred method as it automatically configures your angular.json styles and required dependencies.
 
 Bash
