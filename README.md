@@ -15,8 +15,9 @@ We utilize a standalone architecture to eliminate NgModules for a lighter, faste
   Bash
   ng new employee-portal --standalone
   cd employee-portal
-###2. Automated Bootstrap Integration
-We use @ng-bootstrap/ng-bootstrap via ng add. This is the preferred method as it automatically configures your angular.json styles and required dependencies.
+### 2. Automated Bootstrap Integration
+We use #### @ng-bootstrap/ng-bootstrap via ng add. 
+This is the preferred method as it automatically configures your angular.json styles and required dependencies.
 
 Bash
 ng add @ng-bootstrap/ng-bootstrap
