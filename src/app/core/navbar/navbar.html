@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="assets/images/employee-portal-logo.png" alt="" width="60" height="60"> Employee Portal
+        </a>
+
+        <button class="navbar-toggler" type="button" (click)="toggleMenu()" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div [ngbCollapse]="isMenuCollapsed()" class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a routerLink="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a routerLink="/about" class="nav-link">About</a></li>
+                <li class="nav-item"><a routerLink="/contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a routerLink="/employees" class="nav-link">Employees</a></li>
+                <li class="nav-item"><a routerLink="/users" class="nav-link">Users</a></li>
+                <li class="nav-item"><a routerLink="/login" class="nav-link">Login</a></li>
+                <li class="nav-item"><a routerLink="/employee-form" class="nav-link">Form Component</a></li>
+                <!-- <li class="nav-item"><a routerLink="/employee-reactive" class="nav-link">Reactive Component</a></li>
+                <li class="nav-item"><a routerLink="/navtab" class="nav-link">Nav Tab</a></li> -->
+                <li class="nav-item">
+                    <!-- <button class="btn btn-success ms-2" (click)="openModal()"><i class="bi bi-person-plus"></i> Sign Up</button> -->
+                    <button class="btn btn-success ms-2"><i class="bi bi-person-plus"></i> Sign Up</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- <app-signup-modal *ngIf="showModal" (close)="closeModal()"></app-signup-modal> -->
