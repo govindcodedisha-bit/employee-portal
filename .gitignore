@@ -1,1 +1,19 @@
+# Dependency directories
 node_modules/
+
+# Angular build output
+dist/
+.angular/
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Sensitive data
+.env
