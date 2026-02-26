@@ -8,24 +8,32 @@ Modern Reactivity: Leveraging Angular Signals for state management.
 
 Professional Workflow: Mastering Git, documentation, and debugging in VS Code.
 
-## Installation & Setup
-### 1. Project Initialization
-We utilize a standalone architecture to eliminate NgModules for a lighter, faster application.
+## Environment Check & Preparation
+#### Objective: Confirm that the local environment meets the requirements for Angular 21.
+Before installing Bootstrap, every student should run these commands in their terminal to ensure they have the 
+minimum required versions.
+#### Check NPM Version: npm-v
+    (Requirement: npm 10.x or higher is recommended for Angular 21)
+  
+### Check Angular CLI Version: ng version or ng v
+    (Requirement: Should show Angular CLI: 21.x.x)
+### Confirm Node.js Version: node -v
+    (Requirement: Node.js v20.19.0+ or newer)
+Pro Tip: If ng is not recognized, students may need to install it globally using npm install -g @angular/cli
 
-  Bash
-  ng new employee-portal --standalone
-  cd employee-portal
-### 2. Automated Bootstrap Integration
-We use @ng-bootstrap/ng-bootstrap via ng add. 
-This is the preferred method as it automatically configures your angular.json styles and required dependencies.
-
-Bash
-ng add @ng-bootstrap/ng-bootstrap
-3. Verification
-Ensure your angular.json contains the Bootstrap path in the styles array:
-
-JSON
-"styles": [
-  "node_modules/bootstrap/dist/css/bootstrap.min.css",
-  "src/styles.css"
-]
+## Installation Strategies
+Objective: A systematic approach to adding Bootstrap to an Angular 21 project.
+#### Step 1: Create/Open Project
+   ng new my-bootstrap-app --standalone
+   cd my-bootstrap-app
+### Step 2: Install ng-bootstrap (Automated)
+Using ng add is the preferred method for Angular 21 as it handles all the configuration (styles, scripts, and imports) in one go.
+#### ng add @ng-bootstrap/ng-bootstrap
+### Step 3: Verify Configuration
+  Check your angular.json file. The schematic should have added the Bootstrap CSS automatically:
+   "styles": [
+   "node_modules/bootstrap/dist/css/bootstrap.min.css",
+   "src/styles.css"
+  ]
+### Step 4: Import into Standalone Component
+Since we are in a module-less (Standalone) world, import the specific Bootstrap module you need in your component file.
