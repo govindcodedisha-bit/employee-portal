@@ -1,0 +1,224 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            Employee Registration Form
+        </div>
+        <div class="card-body">
+            <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label for="name">Employee ID:</label>
+                        <input type="number" class="form-control" placeholder="Enter Employee ID"
+                            formControlName="employeeId"
+                            [class.is-invalid]="f['employeeId']?.invalid && f['employeeId']?.touched">
+                        <div class="invalid-feedback">Employee ID is required</div>
+                    </div>
+                    <!-- Employee Name -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">Employee Name</label>
+
+                        <input type="text" class="form-control" formControlName="employeename"
+                            [class.is-invalid]="f['employeename']?.invalid && f['employeename']?.touched">
+
+                        @if(f['employeename']?.touched && f['employeename']?.invalid){
+                        <div class="invalid-feedback">
+
+                            @if(f['employeename'].errors?.['required']){
+                            <div>Employee Name is required</div>
+                            }
+
+                            @if(f['employeename'].errors?.['minlength']){
+                            <div>Minimum 3 characters required</div>
+                            }
+
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">Date of Birth</label>
+
+                        <input type="date" class="form-control" formControlName="dateOfBirth"
+                            [class.is-invalid]="f['dateOfBirth'].invalid && f['dateOfBirth'].touched">
+
+                        <div class="invalid-feedback" *ngIf="f['dateOfBirth'].touched">
+                            <div *ngIf="f['dateOfBirth'].errors?.['required']">
+                                Date of Birth is required
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Number -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">Contact Number</label>
+
+                        <input type="text" class="form-control" formControlName="contactNumber"
+                            [class.is-invalid]="f['contactNumber'].invalid && f['contactNumber'].touched">
+
+                        @if( f['contactNumber'].touched) {
+                        <div class="invalid-feedback">
+                            @if(f['contactNumber'].errors?.['required']) {
+                            <div>
+                                Contact number is required
+                            </div>
+                            }
+                            @if(f['contactNumber'].errors?.['pattern']) {
+                            <div>
+                                Enter valid 10-digit number
+                            </div>
+                            }
+                        </div>
+                        }
+
+                    </div>
+
+
+                    <!-- State Dropdown -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">State</label>
+
+                        <select class="form-select" formControlName="state"
+                            [class.is-invalid]="f['state'].invalid && f['state'].touched">
+
+                            <option value="">Select State</option>
+
+                            @for (state of states; track $index) {
+                            <option [value]="state">{{ state }}</option>
+                            }
+
+                        </select>
+                        @if(f['state'].touched){
+                        <div class="invalid-feedback">
+                            @if(f['state'].errors?.['required']) {
+                            <div>
+                                Please select a state
+                            </div>
+                            }
+                        </div>
+                        }
+
+                    </div>
+
+                    <!-- City Dropdown -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">City</label>
+
+                        <select class="form-select" formControlName="city" [disabled]="cities.length === 0"
+                            [class.is-invalid]="f['city'].invalid && f['city'].touched">
+
+                            <option value="">Select City</option>
+
+                            @for (city of cities; track $index) {
+                            <option [value]="city">{{ city }}</option>
+                            }
+
+                        </select>
+
+                        <div class="invalid-feedback" *ngIf="f['city'].touched">
+                            <div *ngIf="f['city'].errors?.['required']">
+                                Please select a city
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Designation -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">Designation</label>
+                        <input type="text" class="form-control" formControlName="designation">
+                    </div>
+
+                    <!-- Joining Date -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">Joining Date</label>
+                        <input type="date" class="form-control" formControlName="joiningDate">
+                    </div>
+
+                    <!-- Monthly Salary -->
+                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                        <label class="form-label">Monthly Salary</label>
+                        <input type="number" class="form-control" formControlName="monthlySalary">
+                    </div>
+
+                    <!-- Address Section -->
+                    <div formGroupName="address" class="mt-4">
+
+                        <h5 class="mb-3">Address</h5>
+
+                        <div class="row">
+
+                            <div class="col-12 col-sm-6 mb-3">
+                                <label class="form-label">Address Line 1</label>
+                                <input type="text" class="form-control" formControlName="addressline1"
+                                    [class.is-invalid]="addressControls['addressline1']?.invalid && addressControls['addressline1']?.touched">
+                                <div class="invalid-feedback">
+                                    Address line 1 is required.
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6 mb-3">
+                                <label class="form-label">Address Line 2</label>
+                                <input type="text" class="form-control" formControlName="addressline2"
+                                    [class.is-invalid]="addressControls['addressline2']?.invalid && addressControls['addressline2']?.touched">
+                            </div>
+
+                            <div class="col-12 col-sm-6 mb-3">
+                                <label class="form-label">Pin Code</label>
+                                <input type="text" class="form-control" formControlName="pinCode"
+                                    [class.is-invalid]="addressControls['pinCode']?.invalid && addressControls['pinCode']?.touched">
+                                <div class="invalid-feedback">
+                                    Pin Code is required.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Skills Section -->
+                    <div class="mt-4">
+                        <h5 class="mb-3">Skills</h5>
+                        <div formArrayName="skills">
+                            @for (skill of skills.controls; track skill; let i = $index) {
+
+                            <div class="row align-items-start mb-3">
+                                <div class="col-12 col-sm-8 col-lg-9">
+                                    <input type="text" class="form-control" [formControlName]="i"
+                                        placeholder="Enter skill" [class.is-invalid]="skill.invalid && skill.touched">
+
+                                    <div class="invalid-feedback" *ngIf="skill.touched">
+                                        @if(skill.errors?.['required']) {
+                                        <div>Skill is required</div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4 col-lg-3 mt-2 mt-sm-0">
+                                    <button type="button" class="btn btn-danger w-100"
+                                        (click)="$event.stopPropagation(); removeSkill(i)">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                            }
+
+                            <div class="text-start">
+                                <button type="button" class="btn btn-primary" (click)="addSkill()">
+                                    + Add Skill
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Submit -->
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-success px-4">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
