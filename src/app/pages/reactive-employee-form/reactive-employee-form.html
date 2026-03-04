@@ -72,62 +72,34 @@
                         }
 
                     </div>
-
-
-                    <!-- State Dropdown -->
+                    <!-- Email -->
                     <div class="col-12 col-sm-6 col-lg-4 mb-3">
-                        <label class="form-label">State</label>
+                        <label class="form-label">Email</label>
 
-                        <select class="form-select" formControlName="state"
-                            [class.is-invalid]="f['state'].invalid && f['state'].touched">
+                        <input type="text" class="form-control" formControlName="email"
+                            [class.is-invalid]="f['email'].invalid && f['email'].touched">
 
-                            <option value="">Select State</option>
-
-                            @for (state of states; track $index) {
-                            <option [value]="state">{{ state }}</option>
-                            }
-
-                        </select>
-                        @if(f['state'].touched){
+                        @if( f['email'].touched) {
                         <div class="invalid-feedback">
-                            @if(f['state'].errors?.['required']) {
+                            @if(f['email'].errors?.['required']) {
                             <div>
-                                Please select a state
+                                Email is required
+                            </div>
+                            }
+                            @if(f['email'].errors?.['pattern']) {
+                            <div>
+                                Enter valid email address
                             </div>
                             }
                         </div>
                         }
 
                     </div>
-
-                    <!-- City Dropdown -->
-                    <div class="col-12 col-sm-6 col-lg-4 mb-3">
-                        <label class="form-label">City</label>
-
-                        <select class="form-select" formControlName="city" [disabled]="cities.length === 0"
-                            [class.is-invalid]="f['city'].invalid && f['city'].touched">
-
-                            <option value="">Select City</option>
-
-                            @for (city of cities; track $index) {
-                            <option [value]="city">{{ city }}</option>
-                            }
-
-                        </select>
-
-                        <div class="invalid-feedback" *ngIf="f['city'].touched">
-                            <div *ngIf="f['city'].errors?.['required']">
-                                Please select a city
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Designation -->
                     <div class="col-12 col-sm-6 col-lg-4 mb-3">
                         <label class="form-label">Designation</label>
                         <input type="text" class="form-control" formControlName="designation">
                     </div>
-
                     <!-- Joining Date -->
                     <div class="col-12 col-sm-6 col-lg-4 mb-3">
                         <label class="form-label">Joining Date</label>
@@ -139,6 +111,7 @@
                         <label class="form-label">Monthly Salary</label>
                         <input type="number" class="form-control" formControlName="monthlySalary">
                     </div>
+
 
                     <!-- Address Section -->
                     <div formGroupName="address" class="mt-4">
@@ -160,6 +133,60 @@
                                 <label class="form-label">Address Line 2</label>
                                 <input type="text" class="form-control" formControlName="addressline2"
                                     [class.is-invalid]="addressControls['addressline2']?.invalid && addressControls['addressline2']?.touched">
+                            </div>
+
+                            <!-- State Dropdown -->
+                            <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                                <label class="form-label">State</label>
+
+                                <select class="form-select" formControlName="state"
+                                    [class.is-invalid]="addressControls['state']?.invalid && addressControls['state']?.touched">
+
+                                    <option value="">Select State</option>
+
+                                    @for (state of states; track $index) {
+                                    <option [value]="state">{{ state }}</option>
+                                    }
+
+                                </select>
+                                @if(addressControls['state'].touched){
+                                <div class="invalid-feedback">
+                                    @if(addressControls['state'].errors?.['required']) {
+                                    <div>
+                                        Please select a state
+                                    </div>
+                                    }
+                                </div>
+                                }
+
+                            </div>
+
+                            <!-- City Dropdown -->
+                            <div class="col-12 col-sm-6 col-lg-4 mb-3">
+                                <label class="form-label">City</label>
+
+                                <select class="form-select" formControlName="city" [disabled]="cities.length === 0"
+                                    [class.is-invalid]="addressControls['city']?.invalid && addressControls['city']?.touched">
+
+                                    <option value="">Select City</option>
+
+                                    @for (city of cities; track $index) {
+                                    <option [value]="city">{{ city }}</option>
+                                    }
+
+                                </select>
+                                @if(cities.length === 0){
+                                <div class="text-danger small mt-1">No cities available for the selected state.</div>
+                                }
+                                @if(addressControls['city']?.touched){
+                                <div class="invalid-feedback">
+                                    @if(addressControls['city'].errors?.['required']) {
+                                    <div>
+                                        Please select a city
+                                    </div>
+                                    }
+                                </div>
+                                }
                             </div>
 
                             <div class="col-12 col-sm-6 mb-3">

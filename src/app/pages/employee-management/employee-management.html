@@ -1,0 +1,83 @@
+<div class="container mt-5">
+    <h3 class="fw-bold mb-4">Employee List</h3>
+    <button class="btn btn-primary mb-3" (click)="openForm()">
+        <i class="bi bi-plus-circle"></i> Add Employee
+    </button>
+    <div class="card shadow">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle mb-0">
+
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Designation</th>
+                        <th>Joining Date</th>
+                        <th>Monthly Salary</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (emp of employees; track $index) {
+                    <tr>
+                        <!-- Image -->
+                        <td class="text-center">
+                            <img [src]="emp.employeeImage" alt="Employee" width="50" height="50"
+                                class="rounded-circle border">
+                        </td>
+
+                        <td>{{ emp.employeeId }}</td>
+                        <td>{{ emp.employeeName }}</td>
+                        <td>{{ emp.dateOfBirth | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ emp.contactNumber }}</td>
+                        <td>{{ emp.email }}</td>
+                        <td>{{ emp.designation }}</td>
+                        <td>{{ emp.joiningDate | date:'dd/MM/yyyy' }}</td>
+
+                        <!-- Currency Pipe -->
+                        <td>{{ emp.monthlySalary | currency:'USD':'symbol' }}</td>
+                        <!-- Full Address -->
+                        <td>
+                            {{ emp.address.addressLine1 }},
+                            {{ emp.address.addressLine2 }}
+                            {{ emp.address.pinCode }}
+                        </td>
+                        <td>{{ emp.address.city }}</td>
+                        <td>{{ emp.address.state }}</td>
+                        <td class="text-center">
+                            <!-- <div class="d-flex justify-content-center align-items-center gap-2">
+                                <button class="btn btn-sm btn-warning me-2" (click)="editEmployee(emp)">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </button>
+                                <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(emp.employeeId)">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </div> -->
+                        </td>
+
+                    </tr>
+
+                    <!-- Empty State -->
+                    @if(employees.length === 0) {
+                    <tr>
+                        <td colspan="13" class="text-center text-muted py-3">
+                            No Employees Available
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<app-reactive-employee-form></app-reactive-employee-form>
