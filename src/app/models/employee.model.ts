@@ -1,6 +1,6 @@
 export interface Employee {
     employeeId: number | null;       // Unique ID (required)
-    employeeName: string;            // Required
+    employeename: string;            // Required
     dateOfBirth: Date;             // Required (ISO Date string)
     contactNumber: string;
     email: string;                   // Required
@@ -8,8 +8,8 @@ export interface Employee {
     joiningDate?: Date;            // Optional
     monthlySalary?: number | null;
     address: {
-        addressLine1?: string;           // Optional
-        addressLine2?: string;
+        addressline1?: string;           // Optional
+        addressline2?: string;
         state: string;                   // Required
         city: string;                    // Required
         pinCode?: string;

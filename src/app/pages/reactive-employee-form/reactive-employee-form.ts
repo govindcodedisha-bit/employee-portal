@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { email } from '@angular/forms/signals';
 import { join } from 'path';
@@ -12,7 +12,8 @@ import { join } from 'path';
 })
 export class ReactiveEmployeeForm {
   employeeForm!: FormGroup;
-
+  @Input() employeeData: any = null;   // 👈 incoming employee data for edit
+  @Output() saveEmployee = new EventEmitter<any>();
   constructor(private fb: FormBuilder) {
     this.employeeForm = this.fb.group({
       employeeId: ['', Validators.required],
@@ -66,10 +67,17 @@ export class ReactiveEmployeeForm {
   onSubmit() {
     if (this.employeeForm.valid) {
       console.log('Form Submitted:', this.employeeForm.value);
+      this.saveEmployee.emit(this.employeeForm.value);
       this.employeeForm.reset();
     } else {
       this.employeeForm.markAllAsTouched();
       this.checkInvalidControls();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['employeeData'] && this.employeeData) {
+      this.employeeForm.patchValue(this.employeeData);
     }
   }
   ngOnInit() {

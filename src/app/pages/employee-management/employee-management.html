@@ -35,7 +35,7 @@
                         </td>
 
                         <td>{{ emp.employeeId }}</td>
-                        <td>{{ emp.employeeName }}</td>
+                        <td>{{ emp.employeename }}</td>
                         <td>{{ emp.dateOfBirth | date:'dd/MM/yyyy' }}</td>
                         <td>{{ emp.contactNumber }}</td>
                         <td>{{ emp.email }}</td>
@@ -46,21 +46,21 @@
                         <td>{{ emp.monthlySalary | currency:'USD':'symbol' }}</td>
                         <!-- Full Address -->
                         <td>
-                            {{ emp.address.addressLine1 }},
-                            {{ emp.address.addressLine2 }}
+                            {{ emp.address.addressline1 }},
+                            {{ emp.address.addressline2 }}
                             {{ emp.address.pinCode }}
                         </td>
                         <td>{{ emp.address.city }}</td>
                         <td>{{ emp.address.state }}</td>
                         <td class="text-center">
-                            <!-- <div class="d-flex justify-content-center align-items-center gap-2">
+                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <button class="btn btn-sm btn-warning me-2" (click)="editEmployee(emp)">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </button>
-                                <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(emp.employeeId)">
+                                <!-- <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(emp.employeeId)">
                                     <i class="bi bi-trash"></i> Delete
-                                </button>
-                            </div> -->
+                                </button> -->
+                            </div> 
                         </td>
 
                     </tr>
@@ -80,4 +80,7 @@
         </div>
     </div>
 </div>
-<app-reactive-employee-form></app-reactive-employee-form>
+<app-reactive-employee-form (saveEmployee)="addEmployee($event)" [employeeData]="selectedEmployee">
+
+</app-reactive-employee-form> >
+

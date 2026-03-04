@@ -9,17 +9,18 @@ import { ReactiveEmployeeForm } from '../reactive-employee-form/reactive-employe
   styleUrl: './employee-management.css',
 })
 export class EmployeeManagement {
+  selectedEmployee: Employee | null = null;
   employees: Employee[] = [
     {
       employeeId: 101,
-      employeeName: 'Govinda W',
+      employeename: 'Govinda W',
       dateOfBirth: new Date(1988, 10, 5),
       contactNumber: '9876543210',
       email: 'govind.codedisha@gmail.com',
 
       address: {
-        addressLine1: 'A-101, Green Residency',
-        addressLine2: 'Baner Road',
+        addressline1: 'A-101, Green Residency',
+        addressline2: 'Baner Road',
         state: 'Maharashtra',
         city: 'Pune',
         pinCode: '411045',
@@ -31,13 +32,13 @@ export class EmployeeManagement {
     },
     {
       employeeId: 102,
-      employeeName: 'Rahul Sharma',
+      employeename: 'Rahul Sharma',
       dateOfBirth: new Date(1995, 8, 22),
       contactNumber: '9123456789',
       email: 'rahul.codedisha@gmail.com',
       address: {
-        addressLine1: 'B-202, Silver Heights',
-        addressLine2: 'Andheri East',
+        addressline1: 'B-202, Silver Heights',
+        addressline2: 'Andheri East',
         state: 'Maharashtra',
         city: 'Mumbai',
         pinCode: '400069',
@@ -56,6 +57,10 @@ export class EmployeeManagement {
   openForm() {
 
   }
-
+  
+  editEmployee(emp: Employee) {
+    
+    this.selectedEmployee = emp;
+  }
 
 }
