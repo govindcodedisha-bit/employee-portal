@@ -18,6 +18,7 @@
                         <th>Designation</th>
                         <th>Joining Date</th>
                         <th>Monthly Salary</th>
+                        <th>Skills</th>
                         <th>Address</th>
                         <th>City</th>
                         <th>State</th>
@@ -44,6 +45,7 @@
 
                         <!-- Currency Pipe -->
                         <td>{{ emp.monthlySalary | currency:'USD':'symbol' }}</td>
+                        <td> {{ emp.skills?.join(', ') }}</td>
                         <!-- Full Address -->
                         <td>
                             {{ emp.address.addressline1 }},
@@ -53,14 +55,14 @@
                         <td>{{ emp.address.city }}</td>
                         <td>{{ emp.address.state }}</td>
                         <td class="text-center">
-                             <div class="d-flex justify-content-center align-items-center gap-2">
+                            <div class="d-flex justify-content-center align-items-center gap-2">
                                 <button class="btn btn-sm btn-warning me-2" (click)="editEmployee(emp)">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </button>
                                 <!-- <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(emp.employeeId)">
                                     <i class="bi bi-trash"></i> Delete
                                 </button> -->
-                            </div> 
+                            </div>
                         </td>
 
                     </tr>
@@ -80,7 +82,33 @@
         </div>
     </div>
 </div>
-<app-reactive-employee-form (saveEmployee)="addEmployee($event)" [employeeData]="selectedEmployee">
+@if(showFormModal){
+<div class="modal-backdrop fade show"></div>
 
-</app-reactive-employee-form> >
+<div class="modal d-block" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
 
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    {{ selectedEmployee ? 'Edit Employee' : 'Add Employee' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeFormModal()"></button>
+            </div>
+
+            <div class="modal-body">
+                <app-reactive-employee-form (saveEmployee)="saveEmployee($event)" [employeeData]="selectedEmployee">
+                </app-reactive-employee-form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="closeFormModal()">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+}

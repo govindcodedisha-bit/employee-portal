@@ -10,6 +10,7 @@ import { ReactiveEmployeeForm } from '../reactive-employee-form/reactive-employe
 })
 export class EmployeeManagement {
   selectedEmployee: Employee | null = null;
+  showFormModal = false
   employees: Employee[] = [
     {
       employeeId: 101,
@@ -17,7 +18,7 @@ export class EmployeeManagement {
       dateOfBirth: new Date(1988, 10, 5),
       contactNumber: '9876543210',
       email: 'govind.codedisha@gmail.com',
-
+      skills: ['Angular', 'TypeScript', 'Node.js'],
       address: {
         addressline1: 'A-101, Green Residency',
         addressline2: 'Baner Road',
@@ -36,6 +37,7 @@ export class EmployeeManagement {
       dateOfBirth: new Date(1995, 8, 22),
       contactNumber: '9123456789',
       email: 'rahul.codedisha@gmail.com',
+      skills: undefined,
       address: {
         addressline1: 'B-202, Silver Heights',
         addressline2: 'Andheri East',
@@ -50,17 +52,32 @@ export class EmployeeManagement {
     }
   ];
 
-  addEmployee(emp: Employee) {
-    this.employees = [...this.employees, emp];
+  saveEmployee(emp: Employee) {
+    const index = this.employees.findIndex(e => e.employeeId === emp.employeeId);
+    emp.employeeImage = 'assets/images/default-user.png'; // Set default image for new employee
+    if (index !== -1) {
+      const updatedEmployees = [...this.employees];
+      updatedEmployees[index] = emp;
+      this.employees = updatedEmployees;
+    } else {
+      this.employees = [...this.employees, emp];
+    }
+    this.showFormModal = false;
   }
 
   openForm() {
-
+    this.showFormModal = true
+    this.selectedEmployee = null; // Clear selected employee for new entry
   }
-  
+
+  closeFormModal() {
+    this.showFormModal = false;
+    this.selectedEmployee = null; // Clear selected employee when closing modal
+  }
+
   editEmployee(emp: Employee) {
-    
     this.selectedEmployee = emp;
+    this.showFormModal = true;
   }
 
 }

@@ -76,17 +76,42 @@ export class ReactiveEmployeeForm {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['employeeData'] && this.employeeData) {
-      this.employeeForm.patchValue(this.employeeData);
+    if (changes['employeeData'] && this.employeeData) {
+      const formattedData = {
+        ...this.employeeData,
+        dateOfBirth: this.formatDate(this.employeeData.dateOfBirth), // Format for input[type="date"]
+        joiningDate:  this.formatDate(this.employeeData.joiningDate)
+      };
+      
+      this.employeeForm.patchValue(formattedData);
+      this.setSkills(this.employeeData.skills); // Set skills in FormArray
+
     }
   }
+
+  formatDate(date: any) {
+    if (!date) return '';
+    return new Date(date).toISOString().substring(0, 10);
+  }
+
   ngOnInit() {
     this.employeeForm.get('address.state')?.valueChanges.subscribe((state) => {
       this.cities = this.cityMap[state] || [];
       this.employeeForm.get('address.city')?.reset();
     });
   }
+private clearSkills() {
+    while (this.skills.length) {
+      this.skills.removeAt(0);
+    }
+  }
 
+  private setSkills(skills: string[] = []) {
+    this.clearSkills();
+    skills.forEach(skill => 
+      this.skills.push(this.fb.control(skill, Validators.required)));
+
+  }
   checkInvalidControls() {
     const invalid = [];
     const controls = this.employeeForm.controls;

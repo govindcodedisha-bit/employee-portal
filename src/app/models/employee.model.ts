@@ -7,6 +7,7 @@ export interface Employee {
     designation?: string;            // Optional
     joiningDate?: Date;            // Optional
     monthlySalary?: number | null;
+    skills?: string[];              
     address: {
         addressline1?: string;           // Optional
         addressline2?: string;
