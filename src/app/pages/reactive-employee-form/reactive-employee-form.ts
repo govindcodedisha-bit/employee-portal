@@ -34,6 +34,11 @@ export class ReactiveEmployeeForm {
 
       skills: this.fb.array([]), // Initialize an empty FormArray for skills
     });
+
+    this.employeeForm.get('address.state')?.valueChanges.subscribe((state) => {
+      this.cities = this.cityMap[state] || [];
+      this.employeeForm.get('address.city')?.reset();
+    });
   }
 
   get f() {
@@ -80,9 +85,9 @@ export class ReactiveEmployeeForm {
       const formattedData = {
         ...this.employeeData,
         dateOfBirth: this.formatDate(this.employeeData.dateOfBirth), // Format for input[type="date"]
-        joiningDate:  this.formatDate(this.employeeData.joiningDate)
+        joiningDate: this.formatDate(this.employeeData.joiningDate)
       };
-      
+
       this.employeeForm.patchValue(formattedData);
       this.setSkills(this.employeeData.skills); // Set skills in FormArray
 
@@ -100,7 +105,7 @@ export class ReactiveEmployeeForm {
       this.employeeForm.get('address.city')?.reset();
     });
   }
-private clearSkills() {
+  private clearSkills() {
     while (this.skills.length) {
       this.skills.removeAt(0);
     }
@@ -108,7 +113,7 @@ private clearSkills() {
 
   private setSkills(skills: string[] = []) {
     this.clearSkills();
-    skills.forEach(skill => 
+    skills.forEach(skill =>
       this.skills.push(this.fb.control(skill, Validators.required)));
 
   }

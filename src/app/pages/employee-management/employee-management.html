@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <h3 class="fw-bold mb-4">Employee List</h3>
     <button class="btn btn-primary mb-3" (click)="openForm()">
         <i class="bi bi-plus-circle"></i> Add Employee
@@ -56,12 +56,19 @@
                         <td>{{ emp.address.state }}</td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                <button class="btn btn-sm btn-warning me-2" (click)="editEmployee(emp)">
-                                    <i class="bi bi-pencil-square"></i> Edit
-                                </button>
-                                <!-- <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(emp.employeeId)">
-                                    <i class="bi bi-trash"></i> Delete
+                                <span (click)="editEmployee(emp)" title="Edit Employee" class="edit-icon">
+                                    <i class="bi bi-pencil-square"></i>
+                                </span>
+                                <!-- <button class="btn btn-sm btn-warning me-2" (click)="editEmployee(emp)"
+                                    title="Edit Employee">
+                                    <i class="bi bi-pencil-square"></i>
                                 </button> -->
+                                <!-- <button class="btn btn-sm btn-danger" (click)="openDeleteConfirm(emp)"
+                                    title="Delete Employee">
+                                    <i class="bi bi-trash delete-icon"></i> </button> -->
+                                <span (click)="openDeleteConfirm(emp)" title="Edit Employee" class="delete-icon">
+                                    <i class="bi bi-trash"></i>
+                                </span>
                             </div>
                         </td>
 
@@ -104,7 +111,40 @@
 
             <div class="modal-footer">
                 <button class="btn btn-secondary" (click)="closeFormModal()">
+                    <i class="bi bi-x-circle"></i>
                     Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+}
+
+
+@if(showDeleteModal) {
+<div class="modal-backdrop fade show"></div>
+
+<div class="modal d-block" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirm Delete</h5>
+            </div>
+
+            <div class="modal-body">
+                Are you sure you want to delete
+                <strong>{{ employeeToDelete?.employeename }}</strong>?
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="closeDeleteModal()">
+                    Cancel
+                </button>
+
+                <button class="btn btn-danger" (click)="confirmDelete()">
+                    Yes, Delete
                 </button>
             </div>
 

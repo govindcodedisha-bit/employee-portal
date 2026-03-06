@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Employee } from '../../models/employee.model';
 import { ReactiveEmployeeForm } from '../reactive-employee-form/reactive-employee-form';
+import { EmployeeService } from '../../services/employee';
 @Component({
   selector: 'app-employee-management',
   imports: [CommonModule, ReactiveEmployeeForm],
@@ -10,58 +11,19 @@ import { ReactiveEmployeeForm } from '../reactive-employee-form/reactive-employe
 })
 export class EmployeeManagement {
   selectedEmployee: Employee | null = null;
+  employeeToDelete: Employee | null = null;
+  showDeleteModal = false;
   showFormModal = false
-  employees: Employee[] = [
-    {
-      employeeId: 101,
-      employeename: 'Govinda W',
-      dateOfBirth: new Date(1988, 10, 5),
-      contactNumber: '9876543210',
-      email: 'govind.codedisha@gmail.com',
-      skills: ['Angular', 'TypeScript', 'Node.js'],
-      address: {
-        addressline1: 'A-101, Green Residency',
-        addressline2: 'Baner Road',
-        state: 'Maharashtra',
-        city: 'Pune',
-        pinCode: '411045',
-      },
-      designation: 'Software Architect',
-      joiningDate: new Date(2020, 1, 15),
-      monthlySalary: 85000,
-      employeeImage: 'assets/images/default-user.png'
-    },
-    {
-      employeeId: 102,
-      employeename: 'Rahul Sharma',
-      dateOfBirth: new Date(1995, 8, 22),
-      contactNumber: '9123456789',
-      email: 'rahul.codedisha@gmail.com',
-      skills: undefined,
-      address: {
-        addressline1: 'B-202, Silver Heights',
-        addressline2: 'Andheri East',
-        state: 'Maharashtra',
-        city: 'Mumbai',
-        pinCode: '400069',
-      },
-      designation: 'HR Manager',
-      joiningDate: new Date(2021, 6, 1),
-      monthlySalary: 60000,
-      employeeImage: 'assets/images/default-user.png'
-    }
-  ];
+  employees: Employee[] = [];
 
+  constructor(private employeeService: EmployeeService) {
+    this.employees = this.employeeService.getEmployees();
+  }
+
+  
   saveEmployee(emp: Employee) {
-    const index = this.employees.findIndex(e => e.employeeId === emp.employeeId);
-    emp.employeeImage = 'assets/images/default-user.png'; // Set default image for new employee
-    if (index !== -1) {
-      const updatedEmployees = [...this.employees];
-      updatedEmployees[index] = emp;
-      this.employees = updatedEmployees;
-    } else {
-      this.employees = [...this.employees, emp];
-    }
+    this.employeeService.saveEmployee(emp);
+    this.employees = this.employeeService.getEmployees(); // Refresh the list after save
     this.showFormModal = false;
   }
 
@@ -80,4 +42,20 @@ export class EmployeeManagement {
     this.showFormModal = true;
   }
 
+  openDeleteConfirm(emp: Employee) {
+    this.showDeleteModal = true;
+    this.employeeToDelete = emp;
+  }
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.employeeToDelete = null;
+  }
+  confirmDelete() {
+    if (this.employeeToDelete) {
+      this.employeeService.deleteEmployee(this.employeeToDelete.employeeId ?? 0);
+      this.employees = this.employeeService.getEmployees(); // Refresh the list after deletion
+      this.employeeToDelete = null;
+    }
+    this.showDeleteModal = false;
+  }
 }
