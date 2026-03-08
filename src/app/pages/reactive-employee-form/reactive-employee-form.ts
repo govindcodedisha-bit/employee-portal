@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, input, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
-import { email } from '@angular/forms/signals';
-import { join } from 'path';
+import { LocationService } from '../../services/location.service';
 
 @Component({
   selector: 'app-reactive-employee-form',
@@ -10,11 +9,14 @@ import { join } from 'path';
   templateUrl: './reactive-employee-form.html',
   styleUrl: './reactive-employee-form.css',
 })
-export class ReactiveEmployeeForm {
+export class ReactiveEmployeeForm implements OnInit, OnChanges {
   employeeForm!: FormGroup;
   @Input() employeeData: any = null;   // 👈 incoming employee data for edit
   @Output() saveEmployee = new EventEmitter<any>();
-  constructor(private fb: FormBuilder) {
+  states: string[] = [];
+  cities: string[] = [];
+
+  constructor(private fb: FormBuilder, private locationService: LocationService) {
     this.employeeForm = this.fb.group({
       employeeId: ['', Validators.required],
       employeename: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,8 +37,8 @@ export class ReactiveEmployeeForm {
       skills: this.fb.array([]), // Initialize an empty FormArray for skills
     });
 
-    this.employeeForm.get('address.state')?.valueChanges.subscribe((state) => {
-      this.cities = this.cityMap[state] || [];
+     this.employeeForm.get('address.state')?.valueChanges.subscribe((state) => {
+      this.cities = this.locationService.getCities(state);
       this.employeeForm.get('address.city')?.reset();
     });
   }
@@ -48,14 +50,6 @@ export class ReactiveEmployeeForm {
     return (this.employeeForm.get('address') as FormGroup).controls;
   }
 
-  states = ['Maharashtra', 'Gujarat', 'Karnataka'];
-  cities: string[] = [];
-
-  cityMap: { [key: string]: string[] } = {
-    Maharashtra: ['Mumbai', 'Pune', 'Nagpur'],
-    Gujarat: ['Ahmedabad', 'Surat', 'Vadodara'],
-    Karnataka: ['Bangalore', 'Mysore', 'Mangalore'],
-  };
   // 🔥 Getter for FormArray
   get skills(): FormArray {
     return this.employeeForm.get('skills') as FormArray;
@@ -100,8 +94,9 @@ export class ReactiveEmployeeForm {
   }
 
   ngOnInit() {
+    this.states = this.locationService.getStates();
     this.employeeForm.get('address.state')?.valueChanges.subscribe((state) => {
-      this.cities = this.cityMap[state] || [];
+      this.cities = this.locationService.getCities(state);
       this.employeeForm.get('address.city')?.reset();
     });
   }
