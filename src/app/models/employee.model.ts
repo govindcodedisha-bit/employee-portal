@@ -1,20 +1,14 @@
+import { Address } from "../models/Address.model";
 export interface Employee {
     employeeId: number | null;       // Unique ID (required)
     employeename: string;            // Required
     dateOfBirth: Date;             // Required (ISO Date string)
     contactNumber: string;
-    email: string;                   // Required
+    email: string;                   
     designation?: string;            // Optional
-    joiningDate?: Date;            // Optional
+    joiningDate?: Date;            
     monthlySalary?: number | null;
-    skills?: string[];              
-    address: {
-        addressline1?: string;           // Optional
-        addressline2?: string;
-        state: string;                   // Required
-        city: string;                    // Required
-        pinCode?: string;
-    },
-    employeeImage?: string;   // Optional
-    // Optional
+    skills?: string[];
+    address: Address;
+    employeeImage?: string;  
 }
