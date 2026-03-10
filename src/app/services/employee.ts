@@ -1,72 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Employee } from '../models/employee.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EmployeeService {
 
-  private employees: Employee[] = [
-    {
-      employeeId: 101,
-      employeename: 'Govinda W',
-      dateOfBirth: new Date(1988, 10, 5),
-      contactNumber: '9876543210',
-      email: 'govind.codedisha@gmail.com',
-      skills: ['Angular', 'TypeScript', 'Node.js'],
-      address: {
-        addressline1: 'A-101, Green Residency',
-        addressline2: 'Baner Road',
-        state: 'Maharashtra',
-        city: 'Pune',
-        pinCode: '411045',
-      },
-      designation: 'Software Architect',
-      joiningDate: new Date(2020, 1, 15),
-      monthlySalary: 85000,
-      employeeImage: 'assets/images/default-user.png'
-    },
-    {
-      employeeId: 102,
-      employeename: 'Rahul Sharma',
-      dateOfBirth: new Date(1995, 8, 22),
-      contactNumber: '9123456789',
-      email: 'rahul.codedisha@gmail.com',
-      skills: undefined,
-      address: {
-        addressline1: 'B-202, Silver Heights',
-        addressline2: 'Andheri East',
-        state: 'Maharashtra',
-        city: 'Mumbai',
-        pinCode: '400069',
-      },
-      designation: 'HR Manager',
-      joiningDate: new Date(2021, 6, 1),
-      monthlySalary: 60000,
-      employeeImage: 'assets/images/default-user.png'
-    }
-  ];
+  private apiUrl = `${environment.apiUrl}/Employees`;
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-
-  getEmployees(): Employee[] {
-    return this.employees;
+  getEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(this.apiUrl)
   }
 
-  saveEmployee(emp: Employee) {
-    const index = this.employees.findIndex(e => e.employeeId === emp.employeeId);
-    emp.employeeImage = 'assets/images/default-user.png'; // Set default image for new employee
-    if (index !== -1) {
-      const updatedEmployees = [...this.employees];
-      updatedEmployees[index] = emp;
-      this.employees = updatedEmployees;
+  saveEmployee(emp: Employee): Observable<Employee> {
+    emp.employeeImage = 'assets/images/default-user.png';
+    if (emp.id) {
+      return this.http.put<Employee>(`${this.apiUrl}/${emp.id}`, emp);
     } else {
-      this.employees = [...this.employees, emp];
+      return this.http.post<Employee>(this.apiUrl, emp);
     }
   }
 
-  deleteEmployee(empId: number) {
-    this.employees = this.employees.filter(e => e.employeeId !== empId);
+  deleteEmployee(empId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${empId}`);
   }
-
 }

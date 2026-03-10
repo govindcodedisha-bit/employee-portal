@@ -1,5 +1,6 @@
 import { Address } from "../models/Address.model";
 export interface Employee {
+    id?: string;                    // Optional for new entries, required for updates
     employeeId: number | null;       // Unique ID (required)
     employeename: string;            // Required
     dateOfBirth: Date;             // Required (ISO Date string)

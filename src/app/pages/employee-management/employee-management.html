@@ -27,7 +27,7 @@
                 </thead>
 
                 <tbody>
-                    @for (emp of employees; track $index) {
+                    @for (emp of employees$ | async; track emp.employeeId) {
                     <tr>
                         <!-- Image -->
                         <td class="text-center">
@@ -74,8 +74,7 @@
 
                     </tr>
 
-                    <!-- Empty State -->
-                    @if(employees.length === 0) {
+                    @if ((employees$ | async)?.length === 0) {
                     <tr>
                         <td colspan="13" class="text-center text-muted py-3">
                             No Employees Available
@@ -98,7 +97,7 @@
 
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">
-                    {{ selectedEmployee ? 'Edit Employee' : 'Add Employee' }}
+                    {{ selectedEmployee?.employeeId ? 'Edit Employee' : 'Add Employee' }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     (click)="closeFormModal()"></button>
@@ -110,7 +109,7 @@
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-secondary" (click)="closeFormModal()">
+                <button type="button" class="btn btn-secondary" (click)="closeFormModal()">
                     <i class="bi bi-x-circle"></i>
                     Close
                 </button>
@@ -126,29 +125,29 @@
 <div class="modal-backdrop fade show"></div>
 
 <div class="modal d-block" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Confirm Delete</h5>
-            </div>
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Confirm Delete</h5>
+      </div>
 
-            <div class="modal-body">
-                Are you sure you want to delete
-                <strong>{{ employeeToDelete?.employeename }}</strong>?
-            </div>
+      <div class="modal-body">
+        Are you sure you want to delete
+        <strong>{{ employeeToDelete?.employeename }}</strong>?
+      </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-secondary" (click)="closeDeleteModal()">
-                    Cancel
-                </button>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">
+          Cancel
+        </button>
 
-                <button class="btn btn-danger" (click)="confirmDelete()">
-                    Yes, Delete
-                </button>
-            </div>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+          Yes, Delete
+        </button>
+      </div>
 
-        </div>
     </div>
+  </div>
 </div>
 }

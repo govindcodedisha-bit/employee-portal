@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LocationService } from '../../services/location.service';
+import { hidden } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-reactive-employee-form',
@@ -18,6 +19,7 @@ export class ReactiveEmployeeForm implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder, private locationService: LocationService) {
     this.employeeForm = this.fb.group({
+      id:[''],
       employeeId: ['', Validators.required],
       employeename: ['', [Validators.required, Validators.minLength(3)]],
       dateOfBirth: ['', Validators.required],
@@ -37,7 +39,7 @@ export class ReactiveEmployeeForm implements OnInit, OnChanges {
       skills: this.fb.array([]), // Initialize an empty FormArray for skills
     });
 
-     this.employeeForm.get('address.state')?.valueChanges.subscribe((state) => {
+    this.employeeForm.get('address.state')?.valueChanges.subscribe((state) => {
       this.cities = this.locationService.getCities(state);
       this.employeeForm.get('address.city')?.reset();
     });

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Employee } from '../../models/employee.model';
 import { ReactiveEmployeeForm } from '../reactive-employee-form/reactive-employee-form';
 import { EmployeeService } from '../../services/employee';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-employee-management',
   imports: [CommonModule, ReactiveEmployeeForm],
@@ -14,17 +16,44 @@ export class EmployeeManagement {
   employeeToDelete: Employee | null = null;
   showDeleteModal = false;
   showFormModal = false
-  employees: Employee[] = [];
+  // expose observable directly
+  employees$!: Observable<Employee[]>;
 
-  constructor(private employeeService: EmployeeService) {
-    this.employees = this.employeeService.getEmployees();
+  constructor(private employeeService: EmployeeService, private cdr: ChangeDetectorRef) {
+
   }
 
-  
+  ngOnInit() {
+    this.loadEmployees();
+  }
+
+  loadEmployees() {
+    this.employees$ = this.employeeService.getEmployees();
+  }
+
   saveEmployee(emp: Employee) {
-    this.employeeService.saveEmployee(emp);
-    this.employees = this.employeeService.getEmployees(); // Refresh the list after save
-    this.showFormModal = false;
+    this.employeeService.saveEmployee(emp).subscribe({
+      next: () => {
+        // reload employees from API after save
+        console.log("save employee successfull");
+        this.showFormModal = false;
+        this.selectedEmployee = null;
+        this.loadEmployees();
+        this.cdr.detectChanges();   // 🔹 force UI update
+        console.log("employees reload");
+
+      },
+      error: (err) => {
+        console.error('Error saving employee', err);
+        // optionally show a user-friendly error message
+      },
+      complete: () => {
+        // you can also close modal here to guarantee it closes
+        this.showFormModal = false;
+        this.selectedEmployee = null;
+      }
+
+    });
   }
 
   openForm() {
@@ -52,10 +81,21 @@ export class EmployeeManagement {
   }
   confirmDelete() {
     if (this.employeeToDelete) {
-      this.employeeService.deleteEmployee(this.employeeToDelete.employeeId ?? 0);
-      this.employees = this.employeeService.getEmployees(); // Refresh the list after deletion
-      this.employeeToDelete = null;
+      this.employeeService.deleteEmployee(this.employeeToDelete.id ?? '').subscribe({
+        next: () => {
+          // reload employees from API after deletion and close modal in success callback
+          console.log("modal closing");
+          this.showDeleteModal = false;
+          this.employeeToDelete = null;
+          this.loadEmployees();
+          this.cdr.detectChanges();   // 🔹 force UI update
+          console.log("employees reload");
+
+        },
+        error: (err) => {
+          console.error('Error deleting employee', err);
+        }
+      });
     }
-    this.showDeleteModal = false;
   }
 }
