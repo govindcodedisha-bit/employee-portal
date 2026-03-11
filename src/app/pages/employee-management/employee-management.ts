@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Employee } from '../../models/employee.model';
 import { ReactiveEmployeeForm } from '../reactive-employee-form/reactive-employee-form';
 import { EmployeeService } from '../../services/employee';
 import { Observable } from 'rxjs';
+import { error } from 'node:console';
 
 @Component({
   selector: 'app-employee-management',
@@ -18,24 +19,35 @@ export class EmployeeManagement {
   showFormModal = false
   // expose observable directly
   employees$!: Observable<Employee[]>;
+  employees: Employee[] = [];
 
   constructor(private employeeService: EmployeeService, private cdr: ChangeDetectorRef) {
 
-  }
+   }
 
   ngOnInit() {
     this.loadEmployees();
+    // this.LoadStates();
+    // this.LoadABC();
   }
 
   loadEmployees() {
     this.employees$ = this.employeeService.getEmployees();
   }
 
+  LoadStates() {
+    console.log("LoadStates Called");
+  }
+
+  LoadABC() {
+    console.log("LoadABC Called");
+  }
+
   saveEmployee(emp: Employee) {
     this.employeeService.saveEmployee(emp).subscribe({
       next: () => {
         // reload employees from API after save
-        console.log("save employee successfull");
+        console.log("save employee successfull.");
         this.showFormModal = false;
         this.selectedEmployee = null;
         this.loadEmployees();

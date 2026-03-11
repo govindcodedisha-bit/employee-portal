@@ -28,6 +28,7 @@
 
                 <tbody>
                     @for (emp of employees$ | async; track emp.employeeId) {
+                    <!-- @for (emp of employees; track emp.employeeId) { -->
                     <tr>
                         <!-- Image -->
                         <td class="text-center">
@@ -125,29 +126,29 @@
 <div class="modal-backdrop fade show"></div>
 
 <div class="modal d-block" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title">Confirm Delete</h5>
-      </div>
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirm Delete</h5>
+            </div>
 
-      <div class="modal-body">
-        Are you sure you want to delete
-        <strong>{{ employeeToDelete?.employeename }}</strong>?
-      </div>
+            <div class="modal-body">
+                Are you sure you want to delete
+                <strong>{{ employeeToDelete?.employeename }}</strong>?
+            </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">
-          Cancel
-        </button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">
+                    Cancel
+                </button>
 
-        <button type="button" class="btn btn-danger" (click)="confirmDelete()">
-          Yes, Delete
-        </button>
-      </div>
+                <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+                    Yes, Delete
+                </button>
+            </div>
 
+        </div>
     </div>
-  </div>
 </div>
 }
