@@ -27,8 +27,8 @@
                 </thead>
 
                 <tbody>
-                    @for (emp of employees$ | async; track emp.employeeId) {
-                    <!-- @for (emp of employees; track emp.employeeId) { -->
+                    <!-- @for (emp of employees$ | async; track emp.employeeId) { -->
+                    @for (emp of employees(); track emp.employeeId) {
                     <tr>
                         <!-- Image -->
                         <td class="text-center">
