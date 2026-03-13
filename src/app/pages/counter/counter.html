@@ -1,0 +1,14 @@
+<div class="container">
+    <h2>Counter: {{ counterValue | async }}</h2>
+    <div class="row">
+        <div class="col-3">
+            <button (click)="onIncrement()">Increment</button>
+        </div>
+        <div class="col-3">
+            <button (click)="onDecrement()">Decrement</button>
+        </div>
+        <div class="col-3">
+            <button (click)="onReset()">Reset</button>
+        </div>
+    </div>
+</div>
