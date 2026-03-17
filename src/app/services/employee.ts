@@ -13,7 +13,15 @@ export class EmployeeService {
   constructor(private http: HttpClient) { }
 
   getEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.apiUrl)
+    let token: string | null = '';
+    if (typeof window !== 'undefined') {
+      token = sessionStorage.getItem('token');
+    }
+    return this.http.get<Employee[]>(this.apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
   }
 
   saveEmployee(emp: Employee): Observable<Employee> {
@@ -29,7 +37,7 @@ export class EmployeeService {
     return this.http.delete<void>(`${this.apiUrl}/${empId}`);
   }
 
-  getEmployeebyId(id:string){
+  getEmployeebyId(id: string) {
     return this.http.get<Employee>(`${this.apiUrl}/${id}`);
   }
 }

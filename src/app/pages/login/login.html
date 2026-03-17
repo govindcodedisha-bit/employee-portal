@@ -1,0 +1,56 @@
+<div class="container d-flex justify-content-center align-items-center" style="height:80vh">
+
+    <div class="card shadow p-4" style="width:400px">
+
+        <div class="text-center mb-4">
+            <img src="assets/images/employee-portal-logo.png" width="80" alt="Employee Portal Logo">
+            <h4 class="mt-2">Employee Portal Login</h4>
+        </div>
+
+        <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+
+                <input type="email" class="form-control" name="email" required email [(ngModel)]="loginRequest.email"
+                    #email="ngModel">
+
+                <div class="text-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                    Valid email is required
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+
+                <input type="password" class="form-control" name="password" required [(ngModel)]="loginRequest.password"
+                    #password="ngModel">
+
+                <div class="text-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+                    Password is required
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid || isLoading()">
+                <span *ngIf="!isLoading()">Login</span>
+                <span *ngIf="isLoading()">Logging in...</span>
+
+            </button>
+        </form>
+
+        <!-- Optional Links -->
+        <div class="text-center mt-3">
+            <a routerLink="/signup">Create Account</a>
+        </div>
+
+    </div>
+
+</div>

@@ -1,11 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 // CHANGE: Import 'Router' instead of 'RouterLink' for the service logic
-import { Router, RouterLink, NavigationEnd } from '@angular/router'; 
+import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { filter, Observable } from 'rxjs';
 import { CounterStore } from '../../store/counter/counter.reducer';
 import { select, Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
+import { AuthService } from '../../services/authservice';
+
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +18,8 @@ import { AsyncPipe } from '@angular/common';
 })
 export class Navbar {
   // FIX: Change 'RouterLink' to 'Router'
-  private router = inject(Router); 
-
+  private router = inject(Router);
+  public authService = inject(AuthService);
   // Using a Signal to track if the navbar is collapsed
   isMenuCollapsed = signal(true);
 
@@ -34,6 +36,10 @@ export class Navbar {
       this.isMenuCollapsed.set(true);
     });
 
-     this.counterValue = this.store.pipe(select('count'));
+    this.counterValue = this.store.pipe(select('count'));
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
