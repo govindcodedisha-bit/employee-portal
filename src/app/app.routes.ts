@@ -6,13 +6,15 @@ import { EmployeeFormComponent } from './pages/employee-form/employee-form';
 import { ReactiveEmployeeForm } from './pages/reactive-employee-form/reactive-employee-form';
 import { EmployeeManagement } from './pages/employee-management/employee-management';
 import { Counter } from './pages/counter/counter';
+import { Login } from './pages/login/login';
 // import { Login } from './pages/login/login';
 // import { Users } from './pages/users/users';
 // import { NavTab } from './pages/nav-example/nav-tab/navng-tab';
 // import { EmployeeListComponent } from './pages/employee-list/employee-list';
 
 export const appRoutes: Routes = [
-  { path: '', component: Home },
+  { path: 'login', component: Login },
+  { path: 'home', component: Home },
   { path: 'about', component: About },
   { path: 'contact', component: Contact },
   { path: 'employee-form', component: EmployeeFormComponent },
