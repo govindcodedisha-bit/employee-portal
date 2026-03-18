@@ -17,15 +17,15 @@ export class EmployeeService {
     if (typeof window !== 'undefined') {
       token = sessionStorage.getItem('token');
     }
-    return this.http.get<Employee[]>(this.apiUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    return this.http.get<Employee[]>(this.apiUrl)
   }
 
   saveEmployee(emp: Employee): Observable<Employee> {
     emp.employeeImage = 'assets/images/default-user.png';
+    let token: string | null = '';
+    if (typeof window !== 'undefined') {
+      token = sessionStorage.getItem('token');
+    }
     if (emp.id) {
       return this.http.put<Employee>(`${this.apiUrl}/${emp.id}`, emp);
     } else {

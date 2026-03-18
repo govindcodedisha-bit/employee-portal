@@ -21,13 +21,6 @@
                 <li class="nav-item"><a routerLink="/reactive-employee-form" class="nav-link">Reactive Component</a>
                 </li>
                 <li class="nav-item"><a routerLink="/counter" class="nav-link">Counter</a></li>
-                <!-- <li class="nav-item"><a routerLink="/employee-reactive" class="nav-link">Reactive Component</a></li>
-                <li class="nav-item"><a routerLink="/navtab" class="nav-link">Nav Tab</a></li> -->
-                <!-- <li class="nav-item">
-                    <button class="btn btn-success ms-2"><i class="bi bi-person-plus"></i> Sign Up</button>
-                </li> -->
-
-
                 <!-- NOT LOGGED IN -->
                 @if(!authService.isLoggedIn()){
 
@@ -42,14 +35,61 @@
                 </li>
 
                 }
-
+                
                 <!-- LOGGED IN -->
                 @if(authService.isLoggedIn()){
 
-                <li class="nav-item">
-                    <button class="btn btn-danger ms-2" (click)="logout()">
-                        Logout
-                    </button>
+                <li class="nav-item dropdown ms-2">
+
+                    <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <i class="bi bi-person-circle me-2"></i>
+                        {{ userName() || 'User' }}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <!-- Username Header -->
+                        <li class="px-3 py-2 text-muted small">
+                            Signed in as <br>
+                            <strong>{{ userName() }}</strong>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <!-- Menu Items -->
+                        <li>
+                            <a class="dropdown-item" routerLink="/profile">
+                                <i class="bi bi-person me-2"></i> Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" routerLink="/settings">
+                                <i class="bi bi-gear me-2"></i> Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" routerLink="/dashboard">
+                                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <!-- Logout -->
+                        <li>
+                            <button class="dropdown-item text-danger" (click)="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </button>
+                        </li>
+                    </ul>
                 </li>
                 }
             </ul>

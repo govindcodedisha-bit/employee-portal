@@ -22,6 +22,7 @@ export class Navbar {
   public authService = inject(AuthService);
   // Using a Signal to track if the navbar is collapsed
   isMenuCollapsed = signal(true);
+   userName = this.authService.userName;
 
   toggleMenu() {
     this.isMenuCollapsed.update(val => !val);

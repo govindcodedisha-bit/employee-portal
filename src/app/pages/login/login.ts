@@ -39,6 +39,8 @@ export class Login {
         next: (response) => {
           // store token
           this.authService.login(response.token);
+          this.authService.setUserRole(response.user.roleId);
+          this.authService.setUserName(`${response.user.firstName} ${response.user.lastName}` );
           // redirect to home
           this.router.navigate(['/home']);
           console.log("login successfull.")
